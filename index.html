@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+    <div class="content" id="todos">
+        <!-- edit todo modal -->
+        <div class="edit-todo-div" v-bind:class="{ open: modalIsActive}" v-on:click="removeModal($event)">
+            <div class="modal">
+                <h2>Edit ToDo</h2>
+                <form>
+                    <textarea cols="50" rows="5" name="editTodo" id="editTodoInput" required=True></textarea>
+                    <button type="button" id="save-edit" v-on:click="saveChanges()">Save</button>
+                    <p id="error-modal" class="error"></p>
+                    <p id="success-modal" class="success"></p>
+                </form>
+            </div>
+        </div>
+
+        <div class="title-div">
+            <h1>To-Do List</h1>
+            <p id="currDate">on </p>
+        </div>
+        
+        <div class="add-todo">
+            <form v-on:submit.prevent="addTodo">
+                <input type="text" name="todo" id="todo" v-model="todoText" placeholder="Add a new ToDo to the list...">
+                <button type="submit" id="add-todo">
+                    Add To-Do
+                </button>
+            </form>
+        </div>
+
+        <div class="list-todos">
+            <h2>To-Dos for today:</h2>
+            <div class="empty-list-todos" v-if="todosSize == 0">
+                <p>This list is empty for now...</p>
+            </div>
+            <ul class="todos-list">
+                <li v-for="todo in todos" v-bind:key="todo">
+                    <label for="x">
+                        <input type="checkbox" id="x" class="larger" @change="checked($event, todo)"/>
+                        <span class="todoText">{{ todo }}</span>
+                    </label>
+                    <div class="icons">
+                        <i class="far fa-edit todo-icons edit-todo" v-on:click="editToDo(todo)"></i>
+                        <i class="far fa-trash-alt todo-icons delete-todo" v-on:click="deleteTodo(todo)"></i>
+                    </div>
+                </li>
+            </ul>
+
+            <h2>Done for today:</h2>
+
+            <div class="empty-list-done" v-if="doneSize == 0">
+                <p>This list is empty for now...</p>
+            </div>
+
+            <ul class="done-list">
+                <li v-for="d in done">
+                    <i class="far fa-check-circle done"></i>
+                    <p>{{ d }}</p>
+                    <i class="far fa-times-circle undone" v-on:click="unMarkUndone(d)"></i>
+                </li>
+            </ul>
+            <div class="clear">
+                <button type="submit" v-on:click=clearDone()>
+                    Clear Done
+                </button>
+            </div>
+        </div>
+        <footer>
+            <p>&copy 2021 - Fernanda Rodrigues.</p>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="main.js"></script>
+</body>
+</html>
