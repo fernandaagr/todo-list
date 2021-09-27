@@ -117,6 +117,9 @@ var app = new Vue ({
         clearDone(){
             this.done = [];
             localStorage.setItem('done', JSON.stringify(this.done));
+        },
+        getLocalStorage(){
+            //
         }
     },
     mounted () {
